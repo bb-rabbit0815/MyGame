@@ -1,0 +1,37 @@
+
+namespace fbs;
+
+enum Sex: byte
+{
+    None,       // 不明
+    Male,       // 男
+    Woman,      // 女
+    Futanari,   // ふたなり
+}
+
+enum Species: byte
+{
+    None,       // 不明
+    Human,      // 人間
+    Beastman,   // 獣人
+    Dwarf,      // ドワーフ
+    Elf,        // エルフ
+}
+
+struct CharctorParameters {
+    level:int;
+    helth:int;
+    appearance:int;
+    age:int;
+}
+
+table Charctor
+{
+    name:string;
+    sex: Sex = None;
+    species: Species = None;
+    max_parameters: CharctorParameters;
+    parameters: CharctorParameters;
+}
+
+root_type Charctor;
