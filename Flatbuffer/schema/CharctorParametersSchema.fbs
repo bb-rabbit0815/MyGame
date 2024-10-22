@@ -18,20 +18,59 @@ enum Species: byte
     Elf,        // エルフ
 }
 
-struct CharctorParameters {
+enum SkillType: byte
+{
+    Active,
+    Passive,
+}
+
+enum GeneticSkillType: byte
+{
+    Status,
+    Buff,
+    Debuff,
+}
+
+struct CharctorParameters
+{
+    level:int;      // レベル
+    helth:int;      // 健康度
+    appearance:int; // 外見レベル
+    age:int;        // 年齢
+    infection_resistance:float; // 感染耐性
+    health_recovery_speed:int;  // 回復量
+}
+
+struct Sensitivity
+{
+    mouth:int;      // 口
+    nipple:int;     // 乳首
+    boobs:int;      // 胸
+    clitris:int;    // クリトリス
+    vagina:int;     // 膣
+    anus:int;       // 肛門
+    penis:int;      // 陰茎
+    scrotum:int;    // 金玉
+    prostate:int;   // 前立腺
+}
+
+struct GeneticSkill
+{
+    id:int;
     level:int;
-    helth:int;
-    appearance:int;
-    age:int;
+    genetic_skill_type: GeneticSkillType;
 }
 
 table Charctor
 {
     name:string;
-    sex: Sex = None;
-    species: Species = None;
-    max_parameters: CharctorParameters;
-    parameters: CharctorParameters;
+    sex:Sex = None;
+    species: Species= None;
+    max_parameters:CharctorParameters;
+    parameters:CharctorParameters;
+    max_sensitivity:Sensitivity;
+    sensitivity:Sensitivity;
+    genetic_skills:[GeneticSkill];
 }
 
 root_type Charctor;

@@ -41,9 +41,23 @@ public static class FbsConverter
     };
 
     public static Offset<fbs.CharctorParameters> ToCharctorParameters(FlatBufferBuilder fbb, CharctorParameters charctorParameters)
-        => fbs.CharctorParameters.CreateCharctorParameters(fbb, charctorParameters.Level, charctorParameters.Helth, charctorParameters.Appearance, charctorParameters.Age);
+        => fbs.CharctorParameters.CreateCharctorParameters(
+            fbb, charctorParameters.Level,
+            charctorParameters.Helth,
+            charctorParameters.Appearance,
+            charctorParameters.Age,
+            charctorParameters.InfectionResistance,
+            charctorParameters.HealthRecoverySpeed);
 
     public static CharctorParameters CharctorParametersFromFbs(fbs.CharctorParameters? charctorParameters)
-        => new CharctorParameters { Level = charctorParameters?.Level ?? 0, Helth = charctorParameters?.Helth ?? 0, Appearance = charctorParameters?.Appearance ?? 0, Age = charctorParameters?.Age ?? 0 };
+        => new CharctorParameters
+        {
+            Level = charctorParameters?.Level ?? 0,
+            Helth = charctorParameters?.Helth ?? 0,
+            Appearance = charctorParameters?.Appearance ?? 0,
+            Age = charctorParameters?.Age ?? 0,
+            InfectionResistance = charctorParameters?.InfectionResistance ?? 0f,
+            HealthRecoverySpeed = charctorParameters?.HealthRecoverySpeed ?? 0,
+        };
 
 }

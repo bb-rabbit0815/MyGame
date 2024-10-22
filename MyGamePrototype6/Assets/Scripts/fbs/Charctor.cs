@@ -31,13 +31,21 @@ public struct Charctor : IFlatbufferObject
   public fbs.Species Species { get { int o = __p.__offset(8); return o != 0 ? (fbs.Species)__p.bb.GetSbyte(o + __p.bb_pos) : fbs.Species.None; } }
   public fbs.CharctorParameters? MaxParameters { get { int o = __p.__offset(10); return o != 0 ? (fbs.CharctorParameters?)(new fbs.CharctorParameters()).__assign(o + __p.bb_pos, __p.bb) : null; } }
   public fbs.CharctorParameters? Parameters { get { int o = __p.__offset(12); return o != 0 ? (fbs.CharctorParameters?)(new fbs.CharctorParameters()).__assign(o + __p.bb_pos, __p.bb) : null; } }
+  public fbs.Sensitivity? MaxSensitivity { get { int o = __p.__offset(14); return o != 0 ? (fbs.Sensitivity?)(new fbs.Sensitivity()).__assign(o + __p.bb_pos, __p.bb) : null; } }
+  public fbs.Sensitivity? Sensitivity { get { int o = __p.__offset(16); return o != 0 ? (fbs.Sensitivity?)(new fbs.Sensitivity()).__assign(o + __p.bb_pos, __p.bb) : null; } }
+  public fbs.GeneticSkill? GeneticSkills(int j) { int o = __p.__offset(18); return o != 0 ? (fbs.GeneticSkill?)(new fbs.GeneticSkill()).__assign(__p.__vector(o) + j * 12, __p.bb) : null; }
+  public int GeneticSkillsLength { get { int o = __p.__offset(18); return o != 0 ? __p.__vector_len(o) : 0; } }
 
-  public static void StartCharctor(FlatBufferBuilder builder) { builder.StartTable(5); }
+  public static void StartCharctor(FlatBufferBuilder builder) { builder.StartTable(8); }
   public static void AddName(FlatBufferBuilder builder, StringOffset nameOffset) { builder.AddOffset(0, nameOffset.Value, 0); }
   public static void AddSex(FlatBufferBuilder builder, fbs.Sex sex) { builder.AddSbyte(1, (sbyte)sex, 0); }
   public static void AddSpecies(FlatBufferBuilder builder, fbs.Species species) { builder.AddSbyte(2, (sbyte)species, 0); }
   public static void AddMaxParameters(FlatBufferBuilder builder, Offset<fbs.CharctorParameters> maxParametersOffset) { builder.AddStruct(3, maxParametersOffset.Value, 0); }
   public static void AddParameters(FlatBufferBuilder builder, Offset<fbs.CharctorParameters> parametersOffset) { builder.AddStruct(4, parametersOffset.Value, 0); }
+  public static void AddMaxSensitivity(FlatBufferBuilder builder, Offset<fbs.Sensitivity> maxSensitivityOffset) { builder.AddStruct(5, maxSensitivityOffset.Value, 0); }
+  public static void AddSensitivity(FlatBufferBuilder builder, Offset<fbs.Sensitivity> sensitivityOffset) { builder.AddStruct(6, sensitivityOffset.Value, 0); }
+  public static void AddGeneticSkills(FlatBufferBuilder builder, VectorOffset geneticSkillsOffset) { builder.AddOffset(7, geneticSkillsOffset.Value, 0); }
+  public static void StartGeneticSkillsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(12, numElems, 4); }
   public static Offset<fbs.Charctor> EndCharctor(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<fbs.Charctor>(o);
@@ -55,8 +63,11 @@ static public class CharctorVerify
       && verifier.VerifyString(tablePos, 4 /*Name*/, false)
       && verifier.VerifyField(tablePos, 6 /*Sex*/, 1 /*fbs.Sex*/, 1, false)
       && verifier.VerifyField(tablePos, 8 /*Species*/, 1 /*fbs.Species*/, 1, false)
-      && verifier.VerifyField(tablePos, 10 /*MaxParameters*/, 16 /*fbs.CharctorParameters*/, 4, false)
-      && verifier.VerifyField(tablePos, 12 /*Parameters*/, 16 /*fbs.CharctorParameters*/, 4, false)
+      && verifier.VerifyField(tablePos, 10 /*MaxParameters*/, 24 /*fbs.CharctorParameters*/, 4, false)
+      && verifier.VerifyField(tablePos, 12 /*Parameters*/, 24 /*fbs.CharctorParameters*/, 4, false)
+      && verifier.VerifyField(tablePos, 14 /*MaxSensitivity*/, 36 /*fbs.Sensitivity*/, 4, false)
+      && verifier.VerifyField(tablePos, 16 /*Sensitivity*/, 36 /*fbs.Sensitivity*/, 4, false)
+      && verifier.VerifyVectorOfData(tablePos, 18 /*GeneticSkills*/, 12 /*fbs.GeneticSkill*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

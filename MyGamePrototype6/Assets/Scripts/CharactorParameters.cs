@@ -6,11 +6,15 @@ using UnityEngine;
 public class CharctorParameters
 {
     [field: SerializeField]
-    public int Level { get; set; } = 0;
+    public int Level { get; set; }
     [field: SerializeField]
-    public int Helth { get; set; } = 0;
+    public int Helth { get; set; }
     [field: SerializeField]
-    public int Appearance { get; set; } = 0;
+    public int Appearance { get; set; }
     [field: SerializeField]
-    public int Age { get; set; } = 0;
+    public int Age { get; set; }
+    [field: SerializeField]
+    public float InfectionResistance { get; set; }
+    [field: SerializeField]
+    public int HealthRecoverySpeed { get; set; }
 }

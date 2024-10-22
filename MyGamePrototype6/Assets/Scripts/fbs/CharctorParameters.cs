@@ -20,9 +20,13 @@ public struct CharctorParameters : IFlatbufferObject
   public int Helth { get { return __p.bb.GetInt(__p.bb_pos + 4); } }
   public int Appearance { get { return __p.bb.GetInt(__p.bb_pos + 8); } }
   public int Age { get { return __p.bb.GetInt(__p.bb_pos + 12); } }
+  public float InfectionResistance { get { return __p.bb.GetFloat(__p.bb_pos + 16); } }
+  public int HealthRecoverySpeed { get { return __p.bb.GetInt(__p.bb_pos + 20); } }
 
-  public static Offset<fbs.CharctorParameters> CreateCharctorParameters(FlatBufferBuilder builder, int Level, int Helth, int Appearance, int Age) {
-    builder.Prep(4, 16);
+  public static Offset<fbs.CharctorParameters> CreateCharctorParameters(FlatBufferBuilder builder, int Level, int Helth, int Appearance, int Age, float InfectionResistance, int HealthRecoverySpeed) {
+    builder.Prep(4, 24);
+    builder.PutInt(HealthRecoverySpeed);
+    builder.PutFloat(InfectionResistance);
     builder.PutInt(Age);
     builder.PutInt(Appearance);
     builder.PutInt(Helth);
