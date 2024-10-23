@@ -1,7 +1,7 @@
 using Google.FlatBuffers;
 using UnityEngine;
 
-public class Charctor : MonoBehaviour
+public class Character : MonoBehaviour
 {
     [SerializeField]
     private string _name;
@@ -28,20 +28,20 @@ public class Charctor : MonoBehaviour
     public ByteBuffer ToBinary()
     {
         var fbb = new FlatBufferBuilder(1);
-        fbs.Charctor.StartCharctor(fbb);
-        fbs.Charctor.AddName(fbb, fbb.CreateString(_name));
-        fbs.Charctor.AddSex(fbb, FbsConverter.ToSex(_sex));
-        fbs.Charctor.AddSpecies(fbb, FbsConverter.ToSpecies(_species));
-        fbs.Charctor.AddMaxParameters(fbb, FbsConverter.ToCharctorParameters(fbb, _maxParameter));
-        fbs.Charctor.AddParameters(fbb, FbsConverter.ToCharctorParameters(fbb, _parameter));
-        var charctor = fbs.Charctor.EndCharctor(fbb);
-        fbs.Charctor.FinishCharctorBuffer(fbb, charctor);
+        fbs.Character.StartCharacter(fbb);
+        fbs.Character.AddName(fbb, fbb.CreateString(_name));
+        fbs.Character.AddSex(fbb, FbsConverter.ToSex(_sex));
+        fbs.Character.AddSpecies(fbb, FbsConverter.ToSpecies(_species));
+        fbs.Character.AddMaxParameters(fbb, FbsConverter.ToCharctorParameters(fbb, _maxParameter));
+        fbs.Character.AddParameters(fbb, FbsConverter.ToCharctorParameters(fbb, _parameter));
+        var charctor = fbs.Character.EndCharacter(fbb);
+        fbs.Character.FinishCharacterBuffer(fbb, charctor);
         return fbb.DataBuffer;
     }
 
     public void FromBinary(ByteBuffer byteBuffer)
     {
-        var charctor = fbs.Charctor.GetRootAsCharctor(byteBuffer);
+        var charctor = fbs.Character.GetRootAsCharacter(byteBuffer);
         _name = charctor.Name;
         _sex = FbsConverter.SexFromFbx(charctor.Sex);
         _species = FbsConverter.SpeciesFromFbs(charctor.Species);

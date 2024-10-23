@@ -1,0 +1,16 @@
+include "Facilities.fbs";
+include "Character.fbs";
+
+namespace fbs;
+
+// Game system data.
+table Brothel
+{
+    funds: float;           // 資金
+    slaves: [Character];    // 奴隷リスト
+    time: int;              // ゲーム内時間
+    guests: [Character];    // 来客リスト
+    facilities: [Facility]; // 施設のリスト
+}
+
+root_type Brothel;

@@ -1,0 +1,29 @@
+include "Character.fbs";
+
+namespace fbs;
+
+struct FacilityCoordinate
+{
+    x: int;
+    y: int;
+}
+
+enum FaciityId: short
+{
+    None, // 不明
+    BreakRoom, // 休憩室
+    Gloryhole, // 
+    GloryholeW
+}
+
+table Facility
+{
+    unique_id: UUID; // UUID
+    facility_id: FaciityId;
+    level: int;
+    assgined_slaves: [UUID];
+    assgined_guests: [UUID];
+    coordinate: [FacilityCoordinate];
+}
+
+root_type Facility;

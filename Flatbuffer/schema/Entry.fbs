@@ -1,0 +1,10 @@
+include "Brothel.fbs";
+
+namespace fbs;
+
+table SaveData
+{
+    brothel: Brothel;
+}
+
+root_type SaveData;
