@@ -1,4 +1,7 @@
+using System;
+using System.Linq;
 using Google.FlatBuffers;
+using NUnit.Framework.Internal;
 
 public static class FbsConverter
 {
@@ -60,4 +63,24 @@ public static class FbsConverter
             HealthRecoverySpeed = charctorParameters?.HealthRecoverySpeed ?? 0,
         };
 
+    public static Offset<fbs.UUID> ToUUID(FlatBufferBuilder fbb, Guid guid)
+    {
+        var bytes = guid.ToByteArray();
+        return fbs.UUID.CreateUUID(fbb, BitConverter.ToInt64(bytes), BitConverter.ToInt64(bytes, 64));
+    }
+
+    public static Guid GUIDFromFbs(fbs.UUID? uuid)
+    {
+        if (uuid is fbs.UUID _uuid)
+        {
+            var bytes = BitConverter.GetBytes(_uuid.Upper)
+                .Concat(BitConverter.GetBytes(_uuid.Lower))
+                .ToArray();
+            return new Guid(bytes);
+        }
+        else
+        {
+            return Guid.Empty;
+        }
+    }
 }
