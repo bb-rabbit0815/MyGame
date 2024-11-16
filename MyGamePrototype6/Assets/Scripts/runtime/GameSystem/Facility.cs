@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 public class PlayingStatus
 {
-    public Character Slave { get; set; }
+    public Slave Slave { get; set; }
     public Guest Guest { get; set; }
     public ulong StartTime { get; set; }
     public ulong EndTime { get; set; }
@@ -20,13 +21,19 @@ public class Facility
     /// 新しいGuestを追加できるかどうか
     /// </summary>
     public bool CanNewGuest => true;
-    private string _name = "";
-    private List<Character> _slaves = new();
+    /// <summary>
+    /// 娼婦をアサインできるかどうか
+    /// </summary>
+    public bool CanAssgineSlave => true;
+    public IEnumerable<Slave> Slaves => _slaves;
+    public IEnumerable<Guest> Guests => _guests;
+    public IEnumerable<PlayingStatus> PlayingStatuses => _playingStatusList;
+    private List<Slave> _slaves = new();
     private List<Guest> _guests = new();
     private List<Guest> _newGuests = new();
     private List<PlayingStatus> _playingStatusList = new();
 
-    void Update(ulong deltaCount)
+    public void Update(ulong deltaCount)
     {
         TimeCount += deltaCount;
 
@@ -39,10 +46,11 @@ public class Facility
 
     void _UpdateNewGuest(ulong deltaCount)
     {
+        var assgined = new List<Guest>();
         // アサインされていないSlave新規のゲストにアサインする
         foreach (var guest in _newGuests)
         {
-            var notAssignedSlave = _NotAssignedSlaves().FirstOrDefault(null);
+            var notAssignedSlave = _NotAssignedSlaves().FirstOrDefault();
             if (notAssignedSlave != null)
             {
                 _playingStatusList.Add(new PlayingStatus()
@@ -54,8 +62,19 @@ public class Facility
                 });
                 guest.GuestState = GuestState.Playing;
                 _guests.Add(guest);
-                _newGuests.Remove(guest);
+                assgined.Add(guest);
+
+                notAssignedSlave.SlaveState = SlaveState.Playing;
             }
+            else
+            {
+                break;
+            }
+        }
+
+        foreach (var x in assgined)
+        {
+            _newGuests.Remove(x);
         }
     }
 
@@ -69,7 +88,8 @@ public class Facility
             // 売上追加(仮)
             Brothel.Funds += 100;
 
-            // TODO:Slaveのステータス更新
+            // Slaveのステータス更新
+            paly.Slave.SlaveState = SlaveState.Waiting;
         }
 
         // プレイリストの更新
@@ -82,9 +102,17 @@ public class Facility
     /// アサインされていないSlaveを取得する
     /// </summary>
     /// <returns></returns>
-    IEnumerable<Character> _NotAssignedSlaves()
+    IEnumerable<Slave> _NotAssignedSlaves()
     {
-        yield return null;
+        foreach (var slave in _slaves)
+        {
+            if (_playingStatusList.All(x => x.Slave != slave))
+            {
+                yield return slave;
+            }
+        }
+
+        yield break;
     }
 
     public void PushGuest(Guest guest)
@@ -92,6 +120,32 @@ public class Facility
         _newGuests.Add(guest);
         guest.CurrentLocation = this;
         guest.GuestState = GuestState.Waiting;
+    }
+
+    public void AssgineSlave(Slave slave)
+    {
+        if (slave.CurrentLocation == this || _slaves.Contains(slave))
+        {
+            // アサイン済みなのでスキップ
+            return;
+        }
+
+        if (slave.CurrentLocation != null)
+        {
+            slave.CurrentLocation.UnAssgineSlave(slave);
+        }
+
+        _slaves.Add(slave);
+        slave.CurrentLocation = this;
+        slave.SlaveState = SlaveState.Waiting;
+    }
+
+    public void UnAssgineSlave(Slave slave)
+    {
+        if (_slaves.Remove(slave))
+        {
+            slave.CurrentLocation = null;
+        }
     }
 
 }
