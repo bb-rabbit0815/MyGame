@@ -94,6 +94,11 @@ public static class Brothel
         _slaves.Add(slave);
     }
 
+    public static void AddShop (IShop shop)
+    {
+        _shops.Add(shop);
+    }
+
     public static bool Save(string path)
     {
         return true;

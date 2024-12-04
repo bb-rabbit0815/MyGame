@@ -11,6 +11,12 @@ public class PlayingStatus
     public ulong EndTime { get; set; }
 }
 
+public class FacilityCoord
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+}
+
 /// <summary>
 /// 厳密にはPlayRoom
 /// </summary>
@@ -25,6 +31,7 @@ public class Facility
     /// 娼婦をアサインできるかどうか
     /// </summary>
     public bool CanAssgineSlave => true;
+    public FacilityCoord Coord { get; set; } = new FacilityCoord();
     public IEnumerable<Slave> Slaves => _slaves;
     public IEnumerable<Guest> Guests => _guests;
     public IEnumerable<PlayingStatus> PlayingStatuses => _playingStatusList;

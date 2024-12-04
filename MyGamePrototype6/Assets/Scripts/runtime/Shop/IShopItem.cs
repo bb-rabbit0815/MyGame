@@ -8,6 +8,6 @@ public interface IShopItem
 [Serializable]
 public class ItemStock
 {
-    public IShopItem shopItem;
-    public int count;
+    public IShopItem ShopItem { get; set; }
+    public uint Stock { get; set; }
 }

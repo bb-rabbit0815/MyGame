@@ -46,6 +46,7 @@ public class FacilityView : MonoBehaviour
     }
     public Facility Facility { get; set; }
     [SerializeField] ulong _time;
+    [SerializeField] Vector2Int _coord;
     [SerializeField] List<SlaveView> _slaveViews = null;
     [SerializeField] List<GuestView> _guestViews = null;
     [SerializeField] List<PlayingView> _playingViews = null;
@@ -53,6 +54,7 @@ public class FacilityView : MonoBehaviour
     void Update()
     {
         _time = Facility?.TimeCount ?? 0;
+        _coord = new Vector2Int(Facility?.Coord.X ?? 0, Facility?.Coord.Y ?? 0);
         _slaveViews = Facility?.Slaves
             .Select(x => new SlaveView(x))
             .ToList();
